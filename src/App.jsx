@@ -1,5 +1,4 @@
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { useState } from 'react';
 import './App.css';
@@ -19,12 +18,12 @@ function App() {
         <Navbar />
         <Router>
           <div>
-            <Switch>
+            <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/graphic-designs" element={<GrapicDesigns />} />
               <Route path="/motion-graphics" element={<MotionGraphics />} />
-            </Switch>
+            </Routes>
           </div>
         </Router>
       </div>
