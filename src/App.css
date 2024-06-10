@@ -1,0 +1,18 @@
+*{
+  font-family: "Fira Sans", sans-serif;
+  cursor: url('/cursor.png'), auto;
+  box-sizing: border-box;
+  
+}
+body{
+  background-color: rgb(0, 22, 119);
+  /* color: rgba(0, 238, 255, 0.656); */
+
+}
+.progress{
+  animation: prog 20s ease-out ;
+}
+@keyframes prog {
+  from{width: 10%;}
+  to {width: 15%;}
+}

@@ -1,0 +1,321 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
+        header("location: index.php");
+        exit;
+    }
+?>
+<?php
+date_default_timezone_set("Asia/Kolkata");
+
+?>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Task :
+        <?php echo $_SESSION['user'] ?>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .myinout {
+            display: inline-block !important;
+        }
+    </style>
+</head>
+
+<body class="bg-light rounded-4">
+    <!-- ---------------update modall start----------- -->
+
+    <div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="UpdateForm">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Updating....</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row mb-2">
+                            <input type="hidden" id="updateID">
+                            <div class=" py-2 d-flex flex-column gap-2 justify-content-center align-items-center">
+                                <textarea name="task" id="updateTask"
+                                    class="form-control  border border-primary text-primary" required rows="2">
+                                    </textarea>
+                                <input name="ufromTime" placeholder="--:--" id="ufromTime" type="time"
+                                    class="myinout form-control border border-primary text-primary" required>
+
+                                <input name="utoTime" placeholder="--:--" id="utoTime" type="time"
+                                    class="myinout form-control border border-primary text-primary" required>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-----update modall end----------- -->
+
+
+
+    <div style="backdrop-filter:blur(3px)"
+        class="container sticky-top  d-flex justify-content-between align-items-center gap-2 py-2">
+        <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+            aria-controls="offcanvasExample">
+            <i class="fa-solid fa-bars"></i>
+        </a>
+        <h4 class=" p-0 m-0 text-center text-primary">Welcome -
+            <?php echo $_SESSION['user'] ?>
+        </h4> <a href="logout.php" class="btn btn-danger">Logout</a>
+    </div>
+
+    <div class="container">
+
+
+        <div style="max-width:80%;" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls=" flush-collapseOne ">
+                                Change Password
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                Placeholder content for this accordion, which is intended to demonstrate the
+                                <code>.accordion-flush</code> class. This is the first item's accordion body.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="container">
+        <form id="myForm">
+            <div class="row mb-2">
+                <div class="col-md-11  py-2 d-flex justify-content-center align-items-center">
+                    <textarea name="task" id="task" class="form-control  border border-primary text-primary" required
+                        rows="2" placeholder="Enter your task here"></textarea>
+                </div>
+                <?php
+                    // <label class="border p-1 px-3" for="toTime">Enter The Last Time</label>
+                    // <label class="border p-1 px-3" for="fromTime">Enter The Start Time</label>
+                ?>
+                <div class="col-md-11  py-2 d-flex gap-3">
+
+                    <input name="fromTime" id="fromTime" type="time"
+                        class="myinout form-control border border-primary text-primary" placeholder="ndksjfkshkjd"
+                        required>
+
+                    <input name="toTime" id="toTime" type="time"
+                        class="myinout form-control border border-primary text-primary" required>
+                </div>
+                <div class="col-md-1 d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container my-2">
+        Task of the day
+    </div>
+    <div class="container allTask"> </div>
+
+    <div class="container ">
+        <p class=" my-0 mt-2">
+            <span class="d-flex flex-column">
+                <label for="filterDate">Select a Date to view past Task</label>
+                <input id="filterDate" onchange="loadpast()" style="max-width:200px;"
+                    class="myinout form-control border border-primary" type="date">
+            </span>
+        </p>
+    </div>
+    <div class="container " id="Past"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+
+    <script>
+        let statusChk = document.getElementById('statusChk');
+        let statusMSg = document.getElementById('statusMSg');
+        let updateTask = document.getElementById('updateTask')
+        let updateID = document.getElementById('updateID')
+        let past = document.getElementById('Past')
+        let filterDate = document.getElementById('filterDate')
+
+        changeStatus = (e) => {
+            let state = e.checked ? 'Done' : 'pending';
+            $.ajax({
+                url: 'assest/_updateStatus.php',
+                type: 'POST',
+                data: {
+                    taskid: e.value,
+                    state: state
+                },
+                success: (response) => {
+                    console.log(response)
+                }
+            })
+        }
+
+        $(document).ready(() => {
+            const today = new Date()
+            const tomorrow = new Date(today)
+            tomorrow.setDate(today.getDate() - 1)
+            day = '0' + tomorrow.getDate()
+            month = '0' + (tomorrow.getMonth() + 1)
+            year = tomorrow.getFullYear()
+            d = year + '-' + month.slice(-2) + '-' + day.slice(-2)
+            // console.log(d)
+            filterDate.value = d
+
+
+            load = () => {
+                $.ajax({
+                    url: 'assest/_loadtask.php',
+                    success: (res) => {
+                        $('.allTask').html(res)
+                        console.log("loaded again")
+
+                    }
+                })
+            }
+            loadpast = () => {
+                $.ajax({
+                    url: 'assest/_loadtask.php',
+                    type: 'POST',
+                    data: { filter: $(filterDate).val() },
+                    success: (res) => {
+                        $('#Past').html(res)
+                        past.innerHTML = res
+                        // console.log(past)
+                    }
+                })
+            }
+            sEdits = () => {
+                setTimeout(() => {
+                    let Edits = document.querySelectorAll('.editBtn')
+                    Array.from(Edits).forEach((e) => {
+                        $(e).on('click', () => {
+                            let tr = e.parentElement.parentElement;
+                            let b = tr.getElementsByTagName('td')[0]
+                            updateTask.value = b.children[0].innerHTML
+                            ufromTime.value = b.children[2].innerHTML
+                            utoTime.value = b.children[4].innerHTML
+                            // console.log(b.children[2],"  ",b.children[4])
+                            updateID.value = e.dataset.editid;
+
+                        })
+                    })
+                }, 500);
+            }
+
+            deleteTask = (del) => {
+                a = confirm("Are you sure to delete ?")
+                if (a) {
+                    console.log(del);
+                    $.ajax({
+                        url: 'assest/_delete.php',
+                        data: { delid: del },
+                        type: 'POST',
+                        success: (data) => {
+                            // console.log(data)
+                            load();
+                            loadpast();
+                        }
+
+                    })
+                }
+            }
+
+            $('#myForm').on('submit', (e) => {
+                e.preventDefault(); // Prevents the default form submission behavior
+
+                $.ajax({
+                    url: 'assest/_add.php', // The server-side script to handle the form data
+                    type: 'POST', // HTTP request type
+                    data: {
+                        task: $('#task').val(), // Getting the value of the 'task' input
+                        fromTime: $('#fromTime').val(), // Getting the value of the 'fromTime' input
+                        toTime: $('#toTime').val(), // Getting the value of the 'toTime' input
+                    },
+                    success: (response) => {
+                        load(); // Assuming load() is a function to update the UI or perform some action after successful submission
+                        sEdits(); // Assuming sEdits() is another function being called after successful submission
+                        $('#myForm')[0].reset(); // Resetting the form after successful submission
+                        console.log(response); // Logging the server's response to the console
+                    }
+                });
+            });
+
+            load()
+            loadpast()
+            sEdits()
+
+            $('#UpdateForm').on('submit', (e) => {
+                e.preventDefault();
+                $.ajax({
+                    url: 'assest/_update.php',
+                    type: 'POST',
+                    data: {
+                        uptask: updateTask.value,
+                        upid: updateID.value,
+                        ufromTime: $('#ufromTime').val(),
+                        utoTime: $('#utoTime').val(),
+                    },
+                    success: (response) => {
+                        console.log(response)
+                        load();
+                        loadpast();
+                        sEdits()
+
+                        $('#UpdateModal').modal('hide');
+                    }
+                })
+            })
+
+        })
+
+
+    </script>
+</body>
+
+</html>
+
+
